@@ -23,22 +23,24 @@ together by reference, regardless of which file declares them — file
 order doesn't matter to Terraform. Conceptually though, the files build
 on each other like this:
 
-variables.tf ──defines the "shape" of every input──┐
-│
-terraform.tfvars ──supplies the actual values────────►│
-│
-▼
-data.tf ──looks up the approved VPC/subnet + AMI──► ec2.tf
-▲
-security_group.tf ──creates SG (if SSH)──────────────►│
-iam.tf ──creates role + instance profile─────────────►│
-storage.tf ──creates KMS key + data volume───────────►│
-templates/user_data.sh.tpl ──bootstrap script─────────►│
-│
-logging.tf ──watches the subnet + (if SSM) sessions───┘
-│
-▼
-outputs.tf ──surfaces IDs/IPs/commands from all of the above
+variables.tf: This file defines the "shape" of every input
+#
+terraform.tfvars: This file will supplies the actual values needed by the vendor
+#
+data.tf: The data file looks up the approved VPC/subnet plus AMI for the ec2.tf
+#
+security_group.tf: this file reates;
+  - SG (if SSH) is needed
+#
+iam.tf: This will creates role plus instance profile
+#
+storage.tf: This will creates KMS key plus data volume
+#
+templates/user_data.sh.tpl: See below for full details
+#
+logging.tf: Watches the subnet plus (if SSM) sessions
+#
+outputs.tf: Surfaces IDs/IPs/commands from all of the above
 
 
 **`versions.tf`**
